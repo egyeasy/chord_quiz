@@ -1,7 +1,7 @@
 class ChordManager {
-  static const pitchAlphabets = ["C", "D", "E", "F", "G", "A", "B"];
-  static const triads = ["M", "m"];
-  static const sevenths = ["M7", "m7", "7"];
+  static final pitchAlphabets = ["C", "D", "E", "F", "G", "A", "B"];
+  static final triads = ["M", "m"];
+  static final sevenths = ["M7", "m7", "7"];
   static const String sharp = "#";
   static const String flat = "b";
 
@@ -9,7 +9,7 @@ class ChordManager {
     required bool withSharp,
     required bool withFlat,
   }) {
-    List<String> pitchList = pitchAlphabets;
+    List<String> pitchList = [...pitchAlphabets];
 
     if (withSharp) {
       for (var alphabet in pitchAlphabets) {
