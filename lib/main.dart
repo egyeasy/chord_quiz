@@ -1,5 +1,7 @@
+import 'package:chordquiz/providers/settings_provider.dart';
 import 'package:chordquiz/views/home.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +17,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomeView(),
+      home: ChangeNotifierProvider(
+        create: (_) => SettingsProvider(),
+        child: const HomeView(),
+      ),
     );
   }
 }
