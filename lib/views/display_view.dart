@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:math';
+
 import 'package:chordquiz/managers/chord_manager.dart';
 import 'package:chordquiz/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
@@ -16,11 +19,23 @@ class _DisplayViewState extends State<DisplayView> {
   late List<String> pitchList;
   late List<String> chordList;
 
+  String selectedPitch = "";
+  String selectedChord = "";
+
   bool withSharp = false;
   bool withFlat = true;
 
   late bool withTriads;
   late bool withSevenths;
+
+  Timer? timer;
+  final random = Random();
+
+  @override
+  void initState() {
+    super.initState();
+    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) => selectPitchAndChord());
+  }
 
   @override
   void didChangeDependencies() {
@@ -42,11 +57,25 @@ class _DisplayViewState extends State<DisplayView> {
   }
 
   @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void selectPitchAndChord() {
+    setState(() {
+      selectedPitch = pitchList[random.nextInt(pitchList.length)];
+      selectedChord = chordList[random.nextInt(chordList.length)];
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey,
-      alignment: Alignment.center,
-      child: Text(pitchList.first + chordList.first),
+    return Expanded(
+      child: Container(
+        alignment: Alignment.center,
+        child: Text(selectedPitch + selectedChord),
+      ),
     );
   }
 }

@@ -8,10 +8,12 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 200,
+      color: Colors.black,
+      alignment: Alignment.center,
       child: Text("dfef"),
     );
   }
