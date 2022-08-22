@@ -1,3 +1,4 @@
+import 'package:chordquiz/providers/interval_seconds_provider.dart';
 import 'package:chordquiz/providers/is_playing_provider.dart';
 import 'package:chordquiz/providers/settings_provider.dart';
 import 'package:chordquiz/views/home.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider<SettingsProvider>(create: (_) => SettingsProvider()),
           ChangeNotifierProvider<IsPlayingProvider>(create: (_) => IsPlayingProvider()),
+          ChangeNotifierProvider<IntervalSecondsProvider>(create: (_) => IntervalSecondsProvider()),
         ],
         child: const HomeView(),
       ),
