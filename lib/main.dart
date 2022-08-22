@@ -1,3 +1,4 @@
+import 'package:chordquiz/providers/is_playing_provider.dart';
 import 'package:chordquiz/providers/settings_provider.dart';
 import 'package:chordquiz/views/home.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: ChangeNotifierProvider(
-        create: (_) => SettingsProvider(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<SettingsProvider>(create: (_) => SettingsProvider()),
+          ChangeNotifierProvider<IsPlayingProvider>(create: (_) => IsPlayingProvider()),
+        ],
         child: const HomeView(),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SettingsProvider extends ChangeNotifier {
+class SettingsProvider with ChangeNotifier {
   bool _withTriads = true;
   bool _withSevenths = true;
 

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:chordquiz/managers/chord_manager.dart';
+import 'package:chordquiz/providers/is_playing_provider.dart';
 import 'package:chordquiz/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +16,7 @@ class DisplayView extends StatefulWidget {
 
 class _DisplayViewState extends State<DisplayView> {
   late SettingsProvider _settingsProvider;
+  late IsPlayingProvider _isPlayingProvider;
 
   late List<String> pitchList;
   late List<String> chordList;
@@ -34,12 +36,13 @@ class _DisplayViewState extends State<DisplayView> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(seconds: 5), (Timer t) => selectPitchAndChord());
   }
 
   @override
   void didChangeDependencies() {
     _settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
+    _isPlayingProvider = Provider.of<IsPlayingProvider>(context, listen: true);
+
     withTriads = _settingsProvider.withTriads;
     withSevenths = _settingsProvider.withSevenths;
 
@@ -71,10 +74,23 @@ class _DisplayViewState extends State<DisplayView> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isPlayingProvider.isPlaying) {
+      if (timer == null || !timer!.isActive) {
+        timer = Timer.periodic(const Duration(seconds: 2), (Timer t) => selectPitchAndChord());
+      }
+    } else {
+      timer?.cancel();
+    }
+
     return Expanded(
       child: Container(
         alignment: Alignment.center,
-        child: Text(selectedPitch + selectedChord),
+        child: Text(
+          selectedPitch + selectedChord,
+          style: const TextStyle(
+            fontSize: 40,
+          ),
+        ),
       ),
     );
   }
