@@ -1,4 +1,5 @@
 import 'package:chordquiz/views/display_view.dart';
+import 'package:chordquiz/views/piano_view.dart';
 import 'package:chordquiz/views/settings_view.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,6 +21,7 @@ class _HomeViewState extends State<HomeView> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           DisplayView(),
+          PianoView(),
           SettingsView(),
         ],
       ),
