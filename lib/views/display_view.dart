@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:chordquiz/managers/chord_manager.dart';
+import 'package:chordquiz/providers/chord_filter_provider.dart';
 import 'package:chordquiz/providers/interval_seconds_provider.dart';
 import 'package:chordquiz/providers/is_playing_provider.dart';
-import 'package:chordquiz/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,7 @@ class DisplayView extends StatefulWidget {
 }
 
 class _DisplayViewState extends State<DisplayView> {
-  late SettingsProvider _settingsProvider;
+  late ChordFilterProvider _chordFilterProvider;
   late IsPlayingProvider _isPlayingProvider;
   late IntervalSecondsProvider _intervalSecondsProvider;
 
@@ -42,12 +42,12 @@ class _DisplayViewState extends State<DisplayView> {
 
   @override
   void didChangeDependencies() {
-    _settingsProvider = Provider.of<SettingsProvider>(context, listen: false);
+    _chordFilterProvider = Provider.of<ChordFilterProvider>(context, listen: true);
     _isPlayingProvider = Provider.of<IsPlayingProvider>(context, listen: true);
     _intervalSecondsProvider = Provider.of<IntervalSecondsProvider>(context, listen: true);
 
-    withTriads = _settingsProvider.withTriads;
-    withSevenths = _settingsProvider.withSevenths;
+    withTriads = _chordFilterProvider.withTriads;
+    withSevenths = _chordFilterProvider.withSevenths;
 
     pitchList = ChordManager.getPitchList(
       withSharp: withSharp,
@@ -69,10 +69,12 @@ class _DisplayViewState extends State<DisplayView> {
   }
 
   void selectPitchAndChord() {
-    setState(() {
-      selectedPitch = pitchList[random.nextInt(pitchList.length)];
-      selectedChord = chordList[random.nextInt(chordList.length)];
-    });
+    if (chordList.isNotEmpty && pitchList.isNotEmpty) {
+      setState(() {
+        selectedPitch = pitchList[random.nextInt(pitchList.length)];
+        selectedChord = chordList[random.nextInt(chordList.length)];
+      });
+    }
   }
 
   @override

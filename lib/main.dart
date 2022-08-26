@@ -1,6 +1,6 @@
+import 'package:chordquiz/providers/chord_filter_provider.dart';
 import 'package:chordquiz/providers/interval_seconds_provider.dart';
 import 'package:chordquiz/providers/is_playing_provider.dart';
-import 'package:chordquiz/providers/settings_provider.dart';
 import 'package:chordquiz/views/home.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiProvider(
         providers: [
-          ChangeNotifierProvider<SettingsProvider>(create: (_) => SettingsProvider()),
+          ChangeNotifierProvider<ChordFilterProvider>(create: (_) => ChordFilterProvider()),
           ChangeNotifierProvider<IsPlayingProvider>(create: (_) => IsPlayingProvider()),
           ChangeNotifierProvider<IntervalSecondsProvider>(create: (_) => IntervalSecondsProvider()),
         ],
