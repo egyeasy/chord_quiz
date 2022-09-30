@@ -1,6 +1,7 @@
 # chordquiz
 
-A new Flutter project.
+Flutter version 3.0.5
+Dart version 2.17.6
 
 ## Getting Started
 

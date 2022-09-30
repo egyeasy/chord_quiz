@@ -92,6 +92,7 @@ class _DisplayViewState extends State<DisplayView> {
       }
     }
 
+    // TODO: Pitch, Chord를 NotePosition이나 enum 값으로 다뤄야 할 듯
     return Expanded(
       child: Container(
         alignment: Alignment.center,
