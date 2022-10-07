@@ -8,9 +8,37 @@ enum ChordIntervalType {
   dominant,
 }
 
+extension ChordIntervalTypeExtension on ChordIntervalType {
+  String get name {
+    switch (this) {
+      case ChordIntervalType.major:
+        return "M";
+      case ChordIntervalType.minor:
+        return "m";
+      case ChordIntervalType.dominant:
+        return "";
+      default:
+        return "";
+    }
+  }
+}
+
 enum ChordNumberType {
   triad,
   seventh,
+}
+
+extension ChordNumberTypeExtension on ChordNumberType {
+  String get name {
+    switch (this) {
+      case ChordNumberType.triad:
+        return "";
+      case ChordNumberType.seventh:
+        return "7";
+      default:
+        return "";
+    }
+  }
 }
 
 NotePosition pitchToNotePosition(int pitch) {
@@ -98,4 +126,30 @@ List<NotePosition> getNotePositionsForChord(
   }
 
   return notes;
+}
+
+class Chord {
+  NotePosition? baseNotePosition;
+  ChordIntervalType? chordIntervalType;
+  ChordNumberType? chordNumberType;
+
+  Chord(
+    this.baseNotePosition,
+    this.chordIntervalType,
+    this.chordNumberType,
+  );
+
+  bool isValid() {
+    return !(baseNotePosition == null || chordIntervalType == null || chordNumberType == null);
+  }
+
+  String getString() {
+    if (!isValid()) {
+      throw Exception("Invalid Chord");
+    }
+
+    String resultString = baseNotePosition!.note.name + chordIntervalType!.name + chordNumberType!.name;
+
+    return resultString;
+  }
 }

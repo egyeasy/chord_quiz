@@ -5,6 +5,7 @@ import 'package:chordquiz/managers/chord_manager.dart';
 import 'package:chordquiz/providers/chord_filter_provider.dart';
 import 'package:chordquiz/providers/interval_seconds_provider.dart';
 import 'package:chordquiz/providers/is_playing_provider.dart';
+import 'package:chordquiz/utils/chords.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,10 +22,9 @@ class _DisplayViewState extends State<DisplayView> {
   late IntervalSecondsProvider _intervalSecondsProvider;
 
   late List<String> pitchList;
-  late List<String> chordList;
+  late List<Chord> chordList;
 
-  String selectedPitch = "";
-  String selectedChord = "";
+  Chord? selectedChord;
 
   bool withSharp = false;
   bool withFlat = true;
@@ -49,16 +49,6 @@ class _DisplayViewState extends State<DisplayView> {
     withTriads = _chordFilterProvider.withTriads;
     withSevenths = _chordFilterProvider.withSevenths;
 
-    pitchList = ChordManager.getPitchList(
-      withSharp: withSharp,
-      withFlat: withFlat,
-    );
-
-    chordList = ChordManager.getChordList(
-      withTriads: withTriads,
-      withSevenths: withSevenths,
-    );
-
     super.didChangeDependencies();
   }
 
@@ -68,13 +58,16 @@ class _DisplayViewState extends State<DisplayView> {
     super.dispose();
   }
 
+  // TODO: 이 작업을 chord manager에서 같이
   void selectPitchAndChord() {
-    if (chordList.isNotEmpty && pitchList.isNotEmpty) {
-      setState(() {
-        selectedPitch = pitchList[random.nextInt(pitchList.length)];
-        selectedChord = chordList[random.nextInt(chordList.length)];
-      });
-    }
+    setState(() {
+      selectedChord = ChordManager.getRandomChord(
+        withSharp: withSharp,
+        withFlat: withFlat,
+        withTriads: withTriads,
+        withSevenths: withSevenths,
+      );
+    });
   }
 
   @override
@@ -92,12 +85,11 @@ class _DisplayViewState extends State<DisplayView> {
       }
     }
 
-    // TODO: Pitch, Chord를 NotePosition이나 enum 값으로 다뤄야 할 듯
     return Expanded(
       child: Container(
         alignment: Alignment.center,
         child: Text(
-          selectedPitch + selectedChord,
+          selectedChord?.getString() ?? "",
           style: const TextStyle(
             fontSize: 40,
           ),
