@@ -87,47 +87,6 @@ bool isWrongChord(ChordIntervalType interval, ChordNumberType type) {
   return false;
 }
 
-List<NotePosition> getNotePositionsForChord(
-  NotePosition note,
-  ChordIntervalType interval,
-  ChordNumberType type,
-) {
-  List<NotePosition> notes = [note];
-
-  if (isWrongChord(interval, type)) {
-    throw Exception("WRONG CHORD TYPE");
-  }
-
-  switch (interval) {
-    case ChordIntervalType.major:
-    case ChordIntervalType.dominant:
-      notes.add(note.addPitch(4));
-      break;
-    case ChordIntervalType.minor:
-      notes.add(note.addPitch(3));
-      break;
-    default:
-  }
-
-  notes.add(note.addPitch(7));
-
-  switch (type) {
-    case ChordNumberType.seventh:
-      switch (interval) {
-        case ChordIntervalType.major:
-          notes.add(note.addPitch(11));
-          break;
-        case ChordIntervalType.minor:
-        case ChordIntervalType.dominant:
-          notes.add(note.addPitch(10));
-          break;
-        default:
-      }
-  }
-
-  return notes;
-}
-
 class Chord {
   NotePosition? baseNotePosition;
   ChordIntervalType? chordIntervalType;
@@ -148,8 +107,53 @@ class Chord {
       throw Exception("Invalid Chord");
     }
 
-    String resultString = baseNotePosition!.note.name + chordIntervalType!.name + chordNumberType!.name;
+    String resultString = baseNotePosition!.note.name +
+        baseNotePosition!.accidental.symbol +
+        chordIntervalType!.name +
+        chordNumberType!.name;
 
     return resultString;
+  }
+
+  List<NotePosition> getNotePositionsForChord() {
+    if (!isValid()) {
+      throw Exception("Invalid Chord");
+    }
+
+    if (isWrongChord(chordIntervalType!, chordNumberType!)) {
+      throw Exception("WRONG CHORD TYPE");
+    }
+
+    List<NotePosition> notes = [];
+    notes.add(baseNotePosition!.addPitch(0));
+
+    switch (chordIntervalType) {
+      case ChordIntervalType.major:
+      case ChordIntervalType.dominant:
+        notes.add(baseNotePosition!.addPitch(4));
+        break;
+      case ChordIntervalType.minor:
+        notes.add(baseNotePosition!.addPitch(3));
+        break;
+      default:
+    }
+
+    notes.add(baseNotePosition!.addPitch(7));
+
+    switch (chordNumberType) {
+      case ChordNumberType.seventh:
+        switch (chordIntervalType) {
+          case ChordIntervalType.major:
+            notes.add(baseNotePosition!.addPitch(11));
+            break;
+          case ChordIntervalType.minor:
+          case ChordIntervalType.dominant:
+            notes.add(baseNotePosition!.addPitch(10));
+            break;
+          default:
+        }
+    }
+
+    return notes;
   }
 }

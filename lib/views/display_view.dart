@@ -5,6 +5,7 @@ import 'package:chordquiz/managers/chord_manager.dart';
 import 'package:chordquiz/providers/chord_filter_provider.dart';
 import 'package:chordquiz/providers/interval_seconds_provider.dart';
 import 'package:chordquiz/providers/is_playing_provider.dart';
+import 'package:chordquiz/providers/selected_chord_provider.dart';
 import 'package:chordquiz/utils/chords.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,14 +21,15 @@ class _DisplayViewState extends State<DisplayView> {
   late ChordFilterProvider _chordFilterProvider;
   late IsPlayingProvider _isPlayingProvider;
   late IntervalSecondsProvider _intervalSecondsProvider;
+  late SelectedChordProvider _selectedChordProvider;
 
   late List<String> pitchList;
   late List<Chord> chordList;
 
   Chord? selectedChord;
 
-  bool withSharp = false;
-  bool withFlat = true;
+  bool withSharp = true;
+  bool withFlat = false;
 
   late bool withTriads;
   late bool withSevenths;
@@ -45,6 +47,7 @@ class _DisplayViewState extends State<DisplayView> {
     _chordFilterProvider = Provider.of<ChordFilterProvider>(context, listen: true);
     _isPlayingProvider = Provider.of<IsPlayingProvider>(context, listen: true);
     _intervalSecondsProvider = Provider.of<IntervalSecondsProvider>(context, listen: true);
+    _selectedChordProvider = Provider.of<SelectedChordProvider>(context, listen: false);
 
     withTriads = _chordFilterProvider.withTriads;
     withSevenths = _chordFilterProvider.withSevenths;
@@ -58,7 +61,6 @@ class _DisplayViewState extends State<DisplayView> {
     super.dispose();
   }
 
-  // TODO: 이 작업을 chord manager에서 같이
   void selectPitchAndChord() {
     setState(() {
       selectedChord = ChordManager.getRandomChord(
@@ -67,6 +69,7 @@ class _DisplayViewState extends State<DisplayView> {
         withTriads: withTriads,
         withSevenths: withSevenths,
       );
+      _selectedChordProvider.selectedChord = selectedChord;
     });
   }
 

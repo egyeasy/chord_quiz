@@ -66,6 +66,9 @@ class ChordManager {
 
     if (withTriads) {
       for (var intervalType in ChordIntervalType.values) {
+        if (intervalType == ChordIntervalType.dominant) {
+          continue;
+        }
         candidateChordList += pitchList.map((pitch) => Chord(pitch, intervalType, ChordNumberType.triad)).toList();
       }
     }
