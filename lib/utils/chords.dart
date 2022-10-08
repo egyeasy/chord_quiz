@@ -42,31 +42,34 @@ extension ChordNumberTypeExtension on ChordNumberType {
 }
 
 NotePosition pitchToNotePosition(int pitch) {
+  int quotient = pitch ~/ 12;
+  int octave = quotient - 1;
+
   switch (pitch % 12) {
     case 0:
-      return NotePosition(note: Note.C, octave: 1);
+      return NotePosition(note: Note.C, octave: octave);
     case 1:
-      return NotePosition(note: Note.C, accidental: Accidental.Sharp, octave: 1);
+      return NotePosition(note: Note.C, accidental: Accidental.Sharp, octave: octave);
     case 2:
-      return NotePosition(note: Note.D, octave: 1);
+      return NotePosition(note: Note.D, octave: octave);
     case 3:
-      return NotePosition(note: Note.D, accidental: Accidental.Sharp, octave: 1);
+      return NotePosition(note: Note.D, accidental: Accidental.Sharp, octave: octave);
     case 4:
-      return NotePosition(note: Note.E, octave: 1);
+      return NotePosition(note: Note.E, octave: octave);
     case 5:
-      return NotePosition(note: Note.F, octave: 1);
+      return NotePosition(note: Note.F, octave: octave);
     case 6:
-      return NotePosition(note: Note.F, accidental: Accidental.Sharp, octave: 1);
+      return NotePosition(note: Note.F, accidental: Accidental.Sharp, octave: octave);
     case 7:
-      return NotePosition(note: Note.G, octave: 1);
+      return NotePosition(note: Note.G, octave: octave);
     case 8:
-      return NotePosition(note: Note.G, accidental: Accidental.Sharp, octave: 1);
+      return NotePosition(note: Note.G, accidental: Accidental.Sharp, octave: octave);
     case 9:
-      return NotePosition(note: Note.A, octave: 1);
+      return NotePosition(note: Note.A, octave: octave);
     case 10:
-      return NotePosition(note: Note.A, accidental: Accidental.Sharp, octave: 1);
+      return NotePosition(note: Note.A, accidental: Accidental.Sharp, octave: octave);
     case 11:
-      return NotePosition(note: Note.B, octave: 1);
+      return NotePosition(note: Note.B, octave: octave);
     default:
       throw Exception("wrong pitch");
   }
