@@ -1,6 +1,7 @@
 import 'package:chordquiz/views/display_view.dart';
 import 'package:chordquiz/views/piano_view.dart';
 import 'package:chordquiz/views/settings_view.dart';
+import 'package:chordquiz/views/timer_view.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomeViewState extends State<HomeView> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          TimerView(),
           DisplayView(),
           PianoView(),
           SettingsView(),
